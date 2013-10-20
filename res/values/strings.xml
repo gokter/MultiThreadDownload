@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MultiThreadDownload</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="please_input_the_download_path">Please input the download path</string>
+    <string name="download">Download</string>
+    <string name="current_process">Current Process:</string>
+    <string name="default_path">http://down.ruanmei.com/pcmaster/pcmastersetup_5.02.exe</string>
+    <string name="path_should_not_be_empty_">Path should not be empty!</string>
+    <string name="download_success_">Download success!</string>
+
+</resources>
