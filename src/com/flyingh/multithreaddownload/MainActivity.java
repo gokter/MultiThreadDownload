@@ -3,11 +3,9 @@ package com.flyingh.multithreaddownload;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.http.HttpStatus;
@@ -114,10 +112,9 @@ public class MainActivity extends Activity {
 								raf.close();
 								is.close();
 							}
-						} catch (MalformedURLException e) {
+						} catch (Exception e) {
 							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
+							handleException(e);
 						}
 					}
 				}).start();
@@ -143,6 +140,7 @@ public class MainActivity extends Activity {
 					return Long.parseLong(new String(buffer, 0, len));
 				} catch (Exception e) {
 					e.printStackTrace();
+					handleException(e);
 				}
 				return 0;
 			}
@@ -162,6 +160,7 @@ public class MainActivity extends Activity {
 					raf.close();
 				} catch (Exception e) {
 					e.printStackTrace();
+					handleException(e);
 				}
 
 			}
@@ -182,11 +181,29 @@ public class MainActivity extends Activity {
 					connection.setConnectTimeout(5000);
 					if (connection.getResponseCode() == HttpStatus.SC_OK) {
 						return connection.getContentLength();
+					} else {
+						runOnUiThread(new Runnable() {
+
+							@Override
+							public void run() {
+								Toast.makeText(getApplicationContext(), "connect time out!", Toast.LENGTH_SHORT).show();
+							}
+						});
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					handleException(e);
 				}
-				throw new RuntimeException();
+				return 0;
+			}
+
+			private void handleException(final Exception e) {
+				runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+					}
+				});
 			}
 		}).start();
 	}
